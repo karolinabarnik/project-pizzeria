@@ -56,7 +56,7 @@
 
         initMenu: function () {
             const thisApp = this;
-            console.log('thisApp.data:', thisApp.data);
+            console.log('thisApp.data', thisApp.data)
             for (let productData in thisApp.data.products) {
                 new Product(productData, thisApp.data.products[productData]);
             }
@@ -90,20 +90,22 @@
 
             thisProduct.renderInMenu();
 
-            console.log('new Product:', thisProduct);
-
+            console.log('new Product:',
+                thisProduct);
         }
+
         renderInMenu() {
             const thisProduct = this;
 
             /*generate HTML based on template*/
-            const generatedHTML = templates.menuProduct(thisProduct.data);
+
+            const generateHTML = templates.menuProduct(thisProduct.data);
 
             /*create element using utils.createElementFromHTML*/
 
-            thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+            thisProduct.element = utils.createDOMFromHTML(generateHTML);
 
-            /*find menu container */
+            /*find menu container*/
 
             const menuContainer = document.querySelector(select.containerOf.menu);
 
@@ -113,6 +115,5 @@
         }
 
     }
-
     app.init();
 }
