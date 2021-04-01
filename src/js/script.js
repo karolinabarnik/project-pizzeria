@@ -144,7 +144,6 @@
                 /* prevent default action for event */
 
                 event.preventDefault();
-
                 /* find active product (product that has active class) */
                 const activeProduct = document.querySelector(select.menuProduct.activeProduct);
 
@@ -164,6 +163,21 @@
         initOrderForm() {
             const thisProduct = this;
             console.log('initOrderForm')
+            thisProduct.form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                thisProduct.processOrder();
+            });
+
+            for (let input of thisProduct.formInputs) {
+                input.addEventListener('change', function () {
+                    thisProduct.processOrder();
+                });
+            }
+
+            thisProduct.cartButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                thisProduct.processOrder();
+            });
         }
         processOrder() {
             const thisProduct = this;
@@ -189,15 +203,28 @@
                     // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
                     const option = param.options[optionId];
                     console.log(optionId, option);
+
+
+                    // check if there is param with a name of paramId in formData and if it includes optionId
+                    if (formData[paramId] && formData[paramId].includes(optionId)) {
+                        // check if the option is not default
+                        if (optionId != optionId) {
+                            // add option price to price variable
+                        }
+                    } else {
+                        // check if the option is default
+                        if (optionId ===
+                            default) {
+                            // reduce price variable
+                        }
+                    }
+
+                    // update calculated price in the HTML
+                    thisProduct.priceElem.innerHTML = price;
                 }
+
             }
 
-            // update calculated price in the HTML
-            thisProduct.priceElem.innerHTML = price;
+
+            app.init();
         }
-
-    }
-
-
-    app.init();
-}

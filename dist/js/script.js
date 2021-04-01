@@ -18,6 +18,7 @@
         },
         menuProduct: {
             clickable: '.product__header',
+            activeProduct: '.product.active',
             form: '.product__order',
             priceElem: '.product__total-price .price',
             imageWrapper: '.product__images',
@@ -133,10 +134,10 @@
             const thisProduct = this;
 
             /* find the clickable trigger (the element that should react to clicking) */
-            const clickableTrigger = document.querySelector(select.menuProduct.clickable);
+            const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
 
             /* START: add event listener to clickable trigger on event click */
-            thisProduct.accordionTrigger.addEventListener('click', function (event) {
+            clickableTrigger.addEventListener('click', function (event) {
 
 
                 /* prevent default action for event */
@@ -144,15 +145,13 @@
                 event.preventDefault();
 
                 /* find active product (product that has active class) */
-                const activeProduct = classNames.querySelector(menuProduct.wrapperActive);
+                const activeProduct = document.querySelector(select.menuProduct.activeProduct);
 
                 /* if there is active product and it's not thisProduct.element, remove class active from it */
 
-                if (activeProduct != thisProduct.element) {
+                if (activeProduct && activeProduct != thisProduct.element) {
                     activeProduct.classList.remove('active');
-                } else(activeProduct === thisProduct.element)
-
-
+                }
 
                 /* toggle active class on thisProduct.element */
 
@@ -164,6 +163,23 @@
         initOrderForm() {
             const thisProduct = this;
             console.log('initOrderForm')
+
+            thisProduct.form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                thisProduct.processOrder();
+            });
+
+            for (let input of thisProduct.formInputs) {
+                input.addEventListener('change', function () {
+                    thisProduct.processOrder();
+                });
+            }
+
+            thisProduct.cartButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                thisProduct.processOrder();
+            });
+
         }
         processOrder() {
             const thisProduct = this;
@@ -189,13 +205,28 @@
                     // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
                     const option = param.options[optionId];
                     console.log(optionId, option);
+
+                    // check if there is param with a name of paramId in formData and if it includes optionId
+                    if (formData[paramId] && formData[paramId].includes(optionId)) {
+                        // check if the option is not default
+                        if (option != !option.default) {
+                            // add option price to price variable  
+                        }
+                    } else {
+                        const priveOption = option.price;
+                        // check if the option is default
+                        if (option ===
+                            !option.default)
+                        // reduce price variable
+
+                    }
                 }
+                // update calculated price in the HTML
+                thisProduct.priceElem.innerHTML = price;
+
+
             }
-
-            // update calculated price in the HTML
-            thisProduct.priceElem.innerHTML = price;
         }
-
     }
 
 
