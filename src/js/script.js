@@ -195,28 +195,37 @@
 
                 // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
                 const param = thisProduct.data.params[paramId];
-                console.log(paramId, param);
+                console.log("Sprawdzam kategorię", paramId, param);
 
                 // for every option in this category
                 for (let optionId in param.options) {
 
                     // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
                     const option = param.options[optionId];
-                    console.log(optionId, option);
+                    console.log("Sprawdzam opcję", optionId, option);
 
+                    // find image for given option e.g. .tomato-suace
+                    const optionImage = thisProduct.element.querySelector('.' + paramId + '-' + optionId);
 
                     // check if there is param with a name of paramId in formData and if it includes optionId
                     if (formData[paramId] && formData[paramId].includes(optionId)) {
+                        console.log("Ustaliłem, że opcja ta jest wybrana")
                         // check if the option is not default
-                        if (optionId != optionId) {
-                            // add option price to price variable
+                        if (!option.default) {
+                            console.log("To opcja dodatkowa, więc zwiększam cenę")
+                            price = price + option.price
                         }
+
+                        if (optionImage) optionImage.classList.add('active');
                     } else {
+                        console.log("Ustaliłem, że opcja nie jest wybrana")
                         // check if the option is default
-                        if (optionId ===
-                            default) {
+                        if (option.default) {
+                            console.log("To opcja domyślna, więc zmniejszam cenę")
                             // reduce price variable
+                            price = price - option.price
                         }
+                        if (optionImage) optionImage.classList.remove('active');
                     }
 
                     // update calculated price in the HTML
@@ -224,7 +233,9 @@
                 }
 
             }
-
-
-            app.init();
         }
+    }
+
+
+    app.init();
+}

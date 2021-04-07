@@ -208,17 +208,20 @@
 
                     // check if there is param with a name of paramId in formData and if it includes optionId
                     if (formData[paramId] && formData[paramId].includes(optionId)) {
+                        console.log("To opcja dodatkowa, więc zwiększam cenę")
+
                         // check if the option is not default
-                        if (option != !option.default) {
+                        if (!option.default) {
                             // add option price to price variable  
+                            price = price + option.price
                         }
                     } else {
-                        const priveOption = option.price;
-                        // check if the option is default
-                        if (option ===
-                            !option.default)
-                        // reduce price variable
 
+                        // check if the option is default
+                        if (option.default)
+                            // reduce price variable
+                            console.log("To opcja domyślna, więc zmniejszam cenę")
+                        price = price - option.price
                     }
                 }
                 // update calculated price in the HTML
