@@ -89,6 +89,7 @@
     class AmountWidget {
         constructor(element) {
             const thisWidget = this;
+
             thisWidget.getElements(element);
             if (thisWidget.input.value) thisWidget.setValue(thisWidget.input.value);
             else thisWidget.setValue(settings.amountWidget.defaultValue);
@@ -117,9 +118,9 @@
 
                 thisWidget.value = newValue;
                 thisWidget.input.value = thisWidget.value;
-                thisWidget.announce()
+                thisWidget.announce();
             } else {
-                thisWidget.input.value = thisWidget.value
+                thisWidget.input.value = thisWidget.value;
             }
         }
 
@@ -161,6 +162,7 @@
             console.log('new Cart', thisCart);
         }
 
+
         getElements(element) {
             const thisCart = this;
 
@@ -169,6 +171,8 @@
             thisCart.dom.wrapper = element;
 
             thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(slect.cart.toggleTrigger);
+
+            thisCart.dom.productList = thisCart.dom.querySelector(select.cart.productList);
 
         }
 
@@ -180,23 +184,57 @@
 
             });
         }
+        add(menuProduct) {
+            const thisCart = this;
+            console.log('adding product', menuProduct);
 
-    }
+            /*generate HTML based on template*/
 
-    class CartProduct {
-        constructor(manuProduct, element) {
-            const thisCartProduct = this;
+            const generatedHTML = templates.cartProduct(menuProduct);
 
-            thisCartProduct.id = menuProduct.id;
+            /*create element using utils.createElementFromHTML*/
 
-            thisCartProduct.getElements(element);
+            const generatedDOM = utils.createDOMFromHTML(generatedHTML);
 
-            console.log('thisCartProduct', thisCartProduct);
+            /*add element to menu*/
+
+            thisCart.dom.productList.appendChild(generatedDOM);
+            thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
         }
+
     }
+}
+
+class CartProduct {
+    constructor(manuProduct, element) {
+        const thisCartProduct = this;
+
+        thisCartProduct.id = menuProduct.id;
+
+        thisCartProduct.getElements(element);
+
+        console.log('thisCartProduct', thisCartProduct);
+    }
+
+    getElements(element) {
+        const thisCartProduct = this;
+        thisCartProduct.dom;
+        thisCartProduct.dom.wrapper(element);
+        thisCartProduct.dom.querySelector(select.cartProduct.amountWidget);
+        thisCartProduct.dom.querySelector(select.cartProduct.price);
+        thisCartProduct.dom.querySelector(select.cartProduct.edit);
+        thisCartProduct.dom.querySelector(select.cartProduct.remove);
+    }
+
+    amountWidget(element) {
+        const thisCartProduct = this;
+
+        thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+        thisCartProduct.dom.amountWidget.addEventListener('updated', function () {});
+    }
+
 
     const app = {
-
         initMenu: function () {
             const thisApp = this;
             console.log('thisApp.data', thisApp.data)
@@ -328,6 +366,7 @@
             thisProduct.cartButton.addEventListener('click', function (event) {
                 event.preventDefault();
                 thisProduct.processOrder();
+                thisProduct.addToCart();
             });
         }
         initAmountWidget() {
@@ -397,11 +436,87 @@
             /*multiply price by amount*/
             price *= thisProduct.amountWidget.value;
 
+            /*  assign the same value as price to priceSingle */
+
+            thisProduct.priceSingle = price;
+
             // update calculated price in the HTML
             thisProduct.priceElem.innerHTML = price;
         }
 
+        addToCart() {
+            const thisProduct = this;
+
+            app.cart.add(thisProduct);
+
+            thisApp.cart.add(thisProduct.prepareCartProduct);
+
+
+
+        }
+
+        prepareCartProduct() {
+            const thisProduct = this;
+
+            const productSummary = {
+                id: thisProduct.id,
+                name: thisProduct.data.name,
+                amount: thisProduct.amountWidget.value,
+                priceSingle: thisProduct.priceSingle,
+                price: thisProduct.priceSingle * thisProduct.amountWidget.value,
+                params: thisProduct.prepareCartProductParams,
+
+            };
+            return productSummary;
+
+        }
+
+        prepareCartProductParams() {
+            const thisProduct = this;
+
+            /* convert form to object structure e.g. {sauce: ['tomato'], toppings: ['olives', 'redPeppers']} */
+            const formData = utils.serializeFormToObject(thisProduct.form);
+            console.log('formData', formData)
+
+            //new empty object
+            const params = {};
+
+            // for every category (param)...
+            for (let paramId in thisProduct.data.params) {
+
+                // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+                const param = thisProduct.data.params[paramId];
+                console.log("Sprawdzam kategorię", paramId, param);
+
+                // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
+                params[paramId] = {
+                    name: param.label,
+                    options: {}
+                }
+
+
+                // for every option in this category
+                for (let optionId in param.options) {
+
+                    // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+                    const option = param.options[optionId];
+                    console.log("Sprawdzam opcję", optionId, option);
+
+                    const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+                    if (optionSelected) {
+                        //option is selected
+                        params[paramId].options = option.name;
+                    }
+
+                }
+
+            }
+
+            return params;
+        }
     }
+
 
 
     app.init();
