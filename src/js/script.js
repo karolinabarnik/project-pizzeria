@@ -199,36 +199,42 @@
             /*add element to menu*/
 
             thisCart.dom.productList.appendChild(generatedDOM);
-            thisCart.products.push(menuProduct);
+            thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
         }
+
+    }
+}
+
+class CartProduct {
+    constructor(manuProduct, element) {
+        const thisCartProduct = this;
+
+        thisCartProduct.id = menuProduct.id;
+
+        thisCartProduct.getElements(element);
+
+        console.log('thisCartProduct', thisCartProduct);
     }
 
-    class CartProduct {
-        constructor(manuProduct, element) {
-            const thisCartProduct = this;
-
-            thisCartProduct.id = menuProduct.id;
-
-            thisCartProduct.getElements(element);
-
-            console.log('thisCartProduct', thisCartProduct);
-        }
-
-        getElements(element) {
-            const thisCartProduct = this;
-            thisCartProduct.dom;
-            thisCartProduct.dom.wrapper(element);
-            thisCartProduct.dom.querySelector(select.cartProduct.amountWidget);
-            thisCartProduct.dom.querySelector(select.cartProduct.price);
-            thisCartProduct.dom.querySelector(select.cartProduct.edit);
-            thisCartProduct.dom.querySelector(select.cartProduct.remove);
-
-
-        }
+    getElements(element) {
+        const thisCartProduct = this;
+        thisCartProduct.dom;
+        thisCartProduct.dom.wrapper(element);
+        thisCartProduct.dom.querySelector(select.cartProduct.amountWidget);
+        thisCartProduct.dom.querySelector(select.cartProduct.price);
+        thisCartProduct.dom.querySelector(select.cartProduct.edit);
+        thisCartProduct.dom.querySelector(select.cartProduct.remove);
     }
+
+    amountWidget(element) {
+        const thisCartProduct = this;
+
+        thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+        thisCartProduct.dom.amountWidget.addEventListener('updated', function () {});
+    }
+
 
     const app = {
-
         initMenu: function () {
             const thisApp = this;
             console.log('thisApp.data', thisApp.data)
