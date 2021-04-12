@@ -27,7 +27,7 @@
         },
         widgets: {
             amount: {
-                input: 'input[name="amount"]',
+                input: 'input.amount',
                 linkDecrease: 'a[href="#less"]',
                 linkIncrease: 'a[href="#more"]',
             },
@@ -201,8 +201,8 @@
             thisCart.dom.productList.appendChild(generatedDOM);
             thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
         }
-
     }
+
 
 
     class CartProduct {
