@@ -129,14 +129,14 @@
             const thisWidget = this;
 
             thisWidget.input.addEventListener('change', function (event) {
-                thisWidget.setValue(event.target.value)
+                thisWidget.setValue(event.target.value);
             });
             thisWidget.linkDecrease.addEventListener('click', function () {
                 thisWidget.setValue(thisWidget.value - 1);
-            })
+            });
             thisWidget.linkIncrease.addEventListener('click', function () {
                 thisWidget.setValue(thisWidget.value + 1);
-            })
+            });
         }
 
         announce() {
@@ -351,7 +351,7 @@
         }
         initOrderForm() {
             const thisProduct = this;
-            console.log('initOrderForm')
+            console.log('initOrderForm');
             thisProduct.form.addEventListener('submit', function (event) {
                 event.preventDefault();
                 thisProduct.processOrder();
@@ -381,11 +381,11 @@
 
         processOrder() {
             const thisProduct = this;
-            console.log('processOrder')
+            console.log('processOrder');
 
             /* convert form to object structure e.g. {sauce: ['tomato'], toppings: ['olives', 'redPeppers']} */
             const formData = utils.serializeFormToObject(thisProduct.form);
-            console.log('formData', formData)
+            console.log('formData', formData);
 
             // set price to default price
             let price = thisProduct.data.price;
