@@ -172,13 +172,13 @@
 
             thisCart.dom.wrapper = element;
 
-            thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(slect.cart.toggleTrigger);
+            thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+            thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
+            thisCart.dom.deliveryFee = thisCart.dom.wrapper.querySelector(select.cart.deliveryFee);
+            thisCart.dom.subtotalPrice = thisCart.dom.wrapper.querySelector(select.cart.subtotalPrice);
+            thisCart.dom.totalPrice = thisCart.dom.wrapper.querySelectorAll(select.cart.totalPrice);
+            thisCart.dom.totalNumber = thisCart.dom.wrapper.querySelector(select.cart.totalNumber);
 
-            thisCart.dom.productList = thisCart.dom.querySelector(select.cart.productList);
-            thisProduct.dom.deliveryFee = thisProduct.dom.querySelector(select.cart.deliveryFee);
-            thisProduct.dom.subtotalPrice = thisProduct.dom.querySelector(select.cart.subtotalPrice);
-            thisProduct.dom.totalPrice = thisProduct.dom.querySelectorAll(select.cart.totalPrice);
-            thisProduct.dom.totalNumber = thisProduct.dom.querySelector(select.cart.totalNumber);
 
         }
 
@@ -186,7 +186,7 @@
             const thisCart = this;
 
             thisCart.dom.toggleTrigger.addEventListener('click', function () {
-                classNames.cart.wrapperActive.toggle(thisCart.dom.wrapper);
+                thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
 
             });
         }
@@ -239,7 +239,7 @@
 
 
     class CartProduct {
-        constructor(manuProduct, element) {
+        constructor(menuProduct, element) {
             const thisCartProduct = this;
 
             thisCartProduct.id = menuProduct.id;
@@ -295,8 +295,11 @@
             console.log('settings:', settings);
             console.log('templates:', templates);
 
+
             thisApp.initData();
             thisApp.initMenu();
+            thisApp.initCart();
+
         },
 
         initCart: function () {
@@ -355,6 +358,8 @@
             thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
             thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
             thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+
+
 
 
 
@@ -489,7 +494,7 @@
 
             app.cart.add(thisProduct);
 
-            thisApp.cart.add(thisProduct.prepareCartProduct);
+            //  thisApp.cart.add(thisProduct.prepareCartProduct);
 
 
 
