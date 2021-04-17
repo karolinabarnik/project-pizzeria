@@ -6,6 +6,7 @@
     const select = {
         templateOf: {
             menuProduct: '#template-menu-product',
+            cartProduct: '#template-cart-product',
         },
         containerOf: {
             menu: '#product-list',
@@ -82,8 +83,46 @@
     const templates = {
         menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
         // CODE ADDED START
-        //cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
+        cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
         // CODE ADDED END
+    };
+
+    const app = {
+        initMenu: function () {
+            const thisApp = this;
+            console.log('thisApp.data', thisApp.data)
+            for (let productData in thisApp.data.products) {
+                new Product(productData, thisApp.data.products[productData]);
+            }
+        },
+
+        initData: function () {
+            const thisApp = this;
+
+            thisApp.data = dataSource;
+        },
+
+        init: function () {
+            const thisApp = this;
+            console.log('*** App starting ***');
+            console.log('thisApp:', thisApp);
+            console.log('classNames:', classNames);
+            console.log('settings:', settings);
+            console.log('templates:', templates);
+
+
+            thisApp.initData();
+            thisApp.initMenu();
+            thisApp.initCart();
+
+        },
+
+        initCart: function () {
+            const thisApp = this;
+
+            const cartElem = document.querySelector(select.containerOf.cart);
+            thisApp.cart = new Cart(cartElem);
+        },
     };
 
     class AmountWidget {
@@ -253,7 +292,7 @@
         getElements(element) {
             const thisCartProduct = this;
             thisCartProduct.dom = {};
-            thisCartProduct.dom.wrapper(element);
+            thisCartProduct.dom.wrapper.element;
             thisCartProduct.dom.querySelector(select.cartProduct.amountWidget);
             thisCartProduct.dom.querySelector(select.cartProduct.price);
             thisCartProduct.dom.querySelector(select.cartProduct.edit);
@@ -272,43 +311,7 @@
         }
     }
 
-    const app = {
-        initMenu: function () {
-            const thisApp = this;
-            console.log('thisApp.data', thisApp.data)
-            for (let productData in thisApp.data.products) {
-                new Product(productData, thisApp.data.products[productData]);
-            }
-        },
 
-        initData: function () {
-            const thisApp = this;
-
-            thisApp.data = dataSource;
-        },
-
-        init: function () {
-            const thisApp = this;
-            console.log('*** App starting ***');
-            console.log('thisApp:', thisApp);
-            console.log('classNames:', classNames);
-            console.log('settings:', settings);
-            console.log('templates:', templates);
-
-
-            thisApp.initData();
-            thisApp.initMenu();
-            thisApp.initCart();
-
-        },
-
-        initCart: function () {
-            const thisApp = this;
-
-            const cartElem = document.querySelector(select.containerOf.cart);
-            thisApp.cart = new Cart(cartElem);
-        },
-    };
 
 
     class Product {
@@ -495,8 +498,6 @@
             app.cart.add(thisProduct);
 
             //  thisApp.cart.add(thisProduct.prepareCartProduct);
-
-
 
         };
 
