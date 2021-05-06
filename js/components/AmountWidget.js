@@ -19,31 +19,11 @@ class AmountWidget extends BaseWidget{
     thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkDecrease);
     thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
   }
-  setValue(value) {
-    const thisWidget = this;
-
-    const newValue = parseInt(value);
-
-    /* TODO: Add validation */
-    if (thisWidget.value !== newValue &&
-                !isNaN(newValue) &&
-                newValue >= settings.amountWidget.defaultMin &&
-                newValue <= settings.amountWidget.defaultMax) {
-
-      thisWidget.value = newValue;
-      thisWidget.announce();
-    } else {
-      thisWidget.renderValue();
-    }
-
-    parseValue(value){
-      return parseInt(value);
-    }
     
     isValid(value){
       return !isNaN(value)
       && value >= settings.amountWidget.defaultMin 
-      && value <= settings.amountWidget
+      && value <= settings.amountWidget.defaultMax;
     }
 
     renderValue(){
@@ -52,8 +32,6 @@ class AmountWidget extends BaseWidget{
 
     }
   }
-
-
   initActions() {
     const thisWidget = this;
 
@@ -67,17 +45,6 @@ class AmountWidget extends BaseWidget{
       thisWidget.setValue(thisWidget.value + 1);
     });
   }
-
-  announce() {
-    const thisWidget = this;
-
-    const event = new CustomEvent('updated', {
-      bubbles: true
-    });
-    thisWidget.dom.wrapper.dispatchEvent(event);
-  }
-
-
 }
 
 export default AmountWidget;
