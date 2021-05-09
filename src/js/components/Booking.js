@@ -19,7 +19,7 @@ class Booking {
     
 const startDateParam = settings.db.dateStartParamKey + '=' + utils.dateToStr(thisBooking.datePicker.minDate)
 const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate),
-    const params = {
+    params = {
       booking: [
         startDateParam,
         endDateParam,

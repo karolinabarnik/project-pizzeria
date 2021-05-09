@@ -19,7 +19,7 @@ class BaseWidget{
     
         /* TODO: Add validation */
         if (thisWidget.f !== newValue &&
-                    && thisWidget.isValid(value){
+                      thisWidget.isValid(value){
                       thisWidget.correctValue = newValue;
                       thisWidget.announce();
         } else {
