@@ -97,7 +97,36 @@ Promise.all([
 
     table.classList.add(classNames.booking.tableChosen);
     thisBooking.selectedTable = parseInt(table.getAttribute('data-table'));
+   
+    for(let table of thisBooking.floorPlan) {
+      table.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (table.classList.contains('booked')) {
+          alert('Please choose different table, this one is not available');
+        } else {
+          const tableId = parseInt(table.getAttribute(settings.booking.tableIdAttribute));
+          thisBooking.selectTable === tableId;
+          if (thisBooking.selectTable) {
+            thisBooking.removeSelected();
+          } else {
+            table.classList.add(classNames.booking.tableChosen);
+            thisBooking.tableChosen = tableId;
+
+      }
+    }
+  });
   }
+  }
+removeSelected(){
+  const thisBooking = this;
+  const chosenTables = document.querySelectorAll('.table-chosen');
+
+  for (let chosen of chosenTables) {
+    chosen.classList.remove(classNames.booking.tableChosen);
+  } delete thisBooking.chosenTables;
+  }
+  
+ 
 }
 
 export default Booking;
