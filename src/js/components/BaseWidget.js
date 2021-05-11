@@ -25,18 +25,18 @@ class BaseWidget{
         } else {
           thisWidget.renderValue();
       };
-
-      setValue(value) {
+    }
+    setValue(value) {
         const thisWidget = this;
 
         thisWidget.value = value; 
       };
 
-      parseValue(value) {
+    parseValue(value) {
         return parseInt(value);
       };
       
-      isValid(value){
+    isValid(value){
         const thisWidget = this;
 
       thisWidget.dom.input.value = thisWidget.correctValue;
