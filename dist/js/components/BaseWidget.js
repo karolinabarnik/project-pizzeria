@@ -18,30 +18,30 @@ class BaseWidget{
         const newValue = thisWidget.parseValue(value);
     
         /* TODO: Add validation */
-        if (thisWidget.f !== newValue &&
-                      thisWidget.isValid(value){
+        if (thisWidget.correctValue !== newValue &&
+                      thisWidget.isValid(value)){
                       thisWidget.correctValue = newValue;
                       thisWidget.announce();
         } else {
           thisWidget.renderValue();
-      }
+      };
 
-      setValue(value){
+      setValue(value) {
         const thisWidget = this;
 
         thisWidget.value = value; 
-      }
+      };
 
-      parseValue(value){
+      parseValue(value) {
         return parseInt(value);
-      }
+      };
       
       isValid(value){
         const thisWidget = this;
 
       thisWidget.dom.input.value = thisWidget.correctValue;
 
-      }
+      };
 
       announce() {
         const thisWidget = this;
@@ -50,7 +50,7 @@ class BaseWidget{
           bubbles: true
         });
         thisWidget.dom.wrapper.dispatchEvent(event);
-      }
+      };
 }
 
 export default BaseWidget;

@@ -47,7 +47,7 @@ const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBoo
 Promise.all([
   fetch(urls.bookings)
   fetch(urls.eventsCurrent)
-  fetch(urls.eventsRepeat)
+  fetch(urls.eventsRepeat) 
 ])
  .then(function(allResponses){
    const bookingsResponse = allResponses[0];
@@ -111,11 +111,10 @@ Promise.all([
           } else {
             table.classList.add(classNames.booking.tableChosen);
             thisBooking.tableChosen = tableId;
-
+             }
+          }
+        });
       }
-    }
-  });
-  }
   }
 removeSelected(){
   const thisBooking = this;

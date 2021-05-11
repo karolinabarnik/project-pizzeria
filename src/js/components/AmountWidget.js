@@ -21,22 +21,22 @@ class AmountWidget extends BaseWidget{
   }
     
   isValid(value){
-      return !isNaN(value)
-      && value >= settings.amountWidget.defaultMin 
-      && value <= settings.amountWidget.defaultMax;
+    return !isNaN(value)
+    && value >= settings.amountWidget.defaultMin 
+    && value <= settings.amountWidget.defaultMax;
   }
 
   renderValue(){
-      const thisWidget = this;
-      thisWidget.dom.input.value = thisWidget.correctValue;
+    const thisWidget = this;
+    thisWidget.dom.input.value = thisWidget.correctValue;
 
-    }
+  }
 
   initActions() {
     const thisWidget = this;
 
     thisWidget.dom.input.addEventListener('change', function (event) {
-      thisWidget.setValue(thisWidget.dom.input.value);
+    thisWidget.setValue(thisWidget.dom.input.value);
 
     });
     thisWidget.dom.linkDecrease.addEventListener('click', function () {
