@@ -36,11 +36,15 @@ class BaseWidget{
     return parseInt(value);
   }
       
-  isValid(value){
+  renderValue(){
     const thisWidget = this;
 
     thisWidget.dom.input.value = thisWidget.correctValue;
 
+  }
+
+  isValid() {
+    return true;
   }
 
   announce() {
