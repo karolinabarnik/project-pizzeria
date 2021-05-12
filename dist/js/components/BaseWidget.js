@@ -19,29 +19,29 @@ class BaseWidget{
     
     /* TODO: Add validation */
     if (thisWidget.correctValue !== newValue &&
-          thisWidget.isValid(value)){
-          thisWidget.correctValue = newValue;
-          thisWidget.announce();
-        } else {
-          thisWidget.renderValue();
-      }
+      thisWidget.isValid(value)){
+      thisWidget.correctValue = newValue;
+      thisWidget.announce();
+    } else {
+      thisWidget.renderValue();
     }
-    setValue(value) {
-        const thisWidget = this;
+  }
+  setValue(value) {
+    const thisWidget = this;
 
-        thisWidget.value = value; 
-      }
+    thisWidget.value = value; 
+  }
 
-    parseValue(value) {
-        return parseInt(value);
-      }
+  parseValue(value) {
+    return parseInt(value);
+  }
       
-    isValid(value){
-        const thisWidget = this;
+  isValid(value){
+    const thisWidget = this;
 
-      thisWidget.dom.input.value = thisWidget.correctValue;
+    thisWidget.dom.input.value = thisWidget.correctValue;
 
-      }
+  }
 
   announce() {
     const thisWidget = this;
