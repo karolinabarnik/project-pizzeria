@@ -1,56 +1,56 @@
 class BaseWidget{
-    constructor(wrapperElement, initialValue){
-        const thisWidget = this;
+  constructor(wrapperElement, initialValue){
+    const thisWidget = this;
 
-        thisWidget.dom = {};
-        thisWidget.dom.wrapper = wrapperElement;
+    thisWidget.dom = {};
+    thisWidget.dom.wrapper = wrapperElement;
 
-        thisWidget.correctValue = initialValue;
-    }
-    get value(){
+    thisWidget.correctValue = initialValue;
+  }
+  get value(){
     const thisWidget = this;
 
     return thisWidget.correctValue;
-}
-    set value(value) {
-        const thisWidget = this;
+  }
+  set value(value) {
+    const thisWidget = this;
     
-        const newValue = thisWidget.parseValue(value);
+    const newValue = thisWidget.parseValue(value);
     
-        /* TODO: Add validation */
-        if (thisWidget.correctValue !== newValue &&
-                      thisWidget.isValid(value)){
-                      thisWidget.correctValue = newValue;
-                      thisWidget.announce();
+    /* TODO: Add validation */
+    if (thisWidget.correctValue !== newValue &&
+          thisWidget.isValid(value)){
+          thisWidget.correctValue = newValue;
+          thisWidget.announce();
         } else {
           thisWidget.renderValue();
-      };
+      }
     }
     setValue(value) {
         const thisWidget = this;
 
         thisWidget.value = value; 
-      };
+      }
 
     parseValue(value) {
         return parseInt(value);
-      };
+      }
       
     isValid(value){
         const thisWidget = this;
 
       thisWidget.dom.input.value = thisWidget.correctValue;
 
-      };
+      }
 
-      announce() {
-        const thisWidget = this;
+  announce() {
+    const thisWidget = this;
     
-        const event = new CustomEvent('updated', {
-          bubbles: true
-        });
-        thisWidget.dom.wrapper.dispatchEvent(event);
-      };
+    const event = new CustomEvent('updated', {
+      bubbles: true
+    });
+    thisWidget.dom.wrapper.dispatchEvent(event);
+  }
 }
 
 export default BaseWidget;

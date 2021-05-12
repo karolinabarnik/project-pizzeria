@@ -212,7 +212,42 @@ Promise.all([
   } delete thisBooking.chosenTables;
   }
   
- 
+  sendBooking() {
+    const thisCart = this;
+
+    const url = settings.db.url + '/' + settings.db.booking;
+    
+    const reservation = {
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: thisBooking.tableChosen,
+      duration: parseInt(thisBooking.hoursAmount.value),
+      ppl: parseInt(thisBooking.peopleAmount.value),
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value,
+    };
+
+    for (let starter of thisBooking.dom.starters) {
+      if(starter.checked == true) {
+        reservation.starters.push(starter.value);
+      }
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reservation),
+    };
+
+    fetch(url, options);
+    .then(function (response) {
+      return response.json();
+    }).then(function (parsedResponse) {
+      console.log('parsedResponse', parsedResponse);
+    });
+  }
 }
 
 export default Booking;
